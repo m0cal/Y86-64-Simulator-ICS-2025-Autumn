@@ -123,7 +123,7 @@ Next, write unit tests for these functions:
 
 ```cpp
 #define CATCH_CONFIG_MAIN
-#include <catch2/catch_all.hpp> // Header file of catch2
+#include <catch2/catch_test_macros.hpp> // Use specific Catch2 header for test macros
 #include "calculator.h"
 
 TEST_CASE("Addition works", "[calculator]") {
