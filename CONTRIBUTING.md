@@ -22,7 +22,8 @@ We use Meson and Ninja to build the project, and Catch2 for unit testing.
     Please refer to the official installation guides for [Meson](https://mesonbuild.com/Getting-meson.html) and [Ninja](https://ninja-build.org/).
 
 2.  **Install Dependencies:**
-    Our project uses Catch2 for testing. We manage dependencies using Meson's wrap feature. When you run `meson setup`, it will automatically download and configure Catch2.
+    Our project uses Catch2 v3 for testing. We manage dependencies using Meson's wrap feature. When you run `meson setup`, it will automatically download and configure Catch2 v3.
+    **Note:** Catch2 v3 is expected. Please refer to [Catch2 v3 documentation](https://github.com/catchorg/Catch2/blob/devel/docs/Readme.md) and use the `catch2/catch.hpp` header and v3 patterns. If you are familiar with Catch2 v2, be aware that there are breaking changes in v3.
 
 3.  **Configure and Build:**
     To configure the project, run Meson from the root directory:
