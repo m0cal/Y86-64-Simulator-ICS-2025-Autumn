@@ -122,8 +122,7 @@ Next, write unit tests for these functions:
 `unit_tests/test_calculator.cc:`
 
 ```cpp
-#define CATCH_CONFIG_MAIN
-#include <catch2/catch_all.hpp> // Header file of catch2
+#include <catch2/catch_test_macros.hpp>
 #include "calculator.h"
 
 TEST_CASE("Addition works", "[calculator]") {
@@ -138,6 +137,8 @@ TEST_CASE("Multiplication works", "[calculator]") {
     REQUIRE(multiply(3, 4) == 12);
 }
 ```
+
+**Note:** We use Catch2 v3, which uses `#include <catch2/catch_test_macros.hpp>` for test macros. The `CATCH_CONFIG_MAIN` macro from Catch2 v2 is deprecated. With Meson, the test runner is automatically configured, so you don't need to define your own main function.
 
 Finally, build everything and run tests in project root directory:
 
