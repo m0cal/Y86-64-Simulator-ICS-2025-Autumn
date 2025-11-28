@@ -90,12 +90,19 @@ Register devices (for example, RAM) by:
 ```cpp
 void Bus::register_device(Device& device, uint64_t start_addr, uint64_t end_addr);
 ```
+Definite a struct `BusResult` in a shared .h file to include both result and fault type.
 
+```cpp
+struct BusResult{
+    uint8_t data;
+    Y86Stat status_code; // only could be AOK or ADR
+};
+```
 CPU access absolute address by:
 
 ```cpp
-uint8_t Bus::read(uint64_t addr);
-void Bus::write(uint64_t addr, uint8_t data);
+BusResult Bus::read(uint64_t addr);
+BusResult Bus::write(uint64_t addr, uint8_t data);
 ```
 
 Then Bus transform the absolute address to relative address, using the relative one to access the actual device.
@@ -142,76 +149,19 @@ void Logger::report() // called once in the end
 
 ## Exceptions
 
-The simulator uses C++ exception handling to manage runtime errors and status changes. All Y86-specific exceptions derive from the `Y86Exception` base class.
+Inside the `CPU` class has a enum called Stat.
 
-### Exception Hierarchy
+If exceptions happen, CPU writes them into Stat in following priority order:
 
-```
-std::runtime_error
-    └── Y86Exception (base class for all Y86 exceptions)
-        ├── InvalidInstructionException (INS)
-        ├── AddressErrorException (ADR)
-        └── HaltInstruction (HLT)
-```
+> HLT > ADR > INS > AOK
 
-### `Y86Exception`
+For example, in a single cycle, we first get an ADR exception at `fetch` phase. It replaces `AOK` in Stat, because ADR has higher priority than AOK.
+Then another HLT exception is thrown at `execute` phase. It replaces ADR in Stat due to same relative priority.
 
-Base class for all Y86-related exceptions. Stores the corresponding `Y86Stat` code.
-
-**Key Methods:**
-```cpp
-Y86Stat get_y86_stat_code() const; // Returns the associated Y86 status code
-```
-
-### `InvalidInstructionException`
-
-Thrown when an illegal instruction is encountered (sets status to `INS`).
-
-**Constructor:**
-```cpp
-InvalidInstructionException(long long pc, int icode);
-```
-- `pc`: Program counter where the invalid instruction was encountered
-- `icode`: The illegal instruction code
-
-### `AddressErrorException`
-
-Thrown when an illegal memory address is accessed (sets status to `ADR`).
-
-**Constructor:**
-```cpp
-AddressErrorException(long long pc, long long addr, const std::string& type);
-```
-- `pc`: Program counter at the time of the error
-- `addr`: The illegal address being accessed
-- `type`: Type of access (`"read"` or `"write"`)
-
-### `HaltInstruction`
-
-Thrown when a halt instruction is executed (sets status to `HLT`). While not an error, using an exception allows clean control flow interruption.
-
-**Constructor:**
-```cpp
-HaltInstruction(long long pc);
-```
-- `pc`: Program counter where the halt instruction was encountered
-
-### Exception Handling Pattern
-
-The simulator's main execution loop catches these exceptions to update the CPU status:
+The cycle works like this:
 
 ```cpp
-while (cpu.Stat == AOK) {
-    try {
-        // Execute instruction cycle
-    } 
-    catch (const Y86Exception& e) {
-        cpu.Stat = e.get_y86_stat_code();
-        // Log error information
-    } 
-    catch (const std::exception& e) {
-        cpu.Stat = Y86Stat::ERR;
-        // Handle system-level exceptions
-    }
+while(cpu.Stat == AOK){
+  cpu.run_cycle(); // inside this function cpu sets Stat.
 }
 ```
