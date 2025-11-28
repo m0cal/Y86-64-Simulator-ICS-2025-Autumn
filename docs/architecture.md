@@ -58,9 +58,7 @@ explicit CPU(Bus& system_bus);
 void reset();
 
 // Executes a single instruction cycle
-// NOTE: This function does not catch exceptions. If an error (ADR/INS) 
-// or halt (HLT) occurs, the corresponding Y86Exception is thrown 
-// and must be caught at the Simulator level.
+// Completion status is observed via the CPU Stat register.
 void run_cycle();
 ```
 
@@ -70,28 +68,27 @@ Although execution is sequential, the internal logic of `run_cycle()` is strictl
 
 1.  **`fetch()`**: Reads the instruction bytes from the `Bus` at the `PC`.
       * Parses the `icode` (instruction code) and `ifun` (function code).
-      * If the `Bus` throws an `AddressErrorException` during fetch, or an unknown `icode` is parsed (throwing `InvalidInstructionException`), the exception is propagated upwards.
+      * Any invalid address or instruction sets the CPU `Stat` to `ADR` or `INS` for the simulator to observe.
 2.  **`decode()`**: Reads the operands (`valA`, `valB`) from the Register File (RF).
 3.  **`execute()`**: The ALU performs calculation or memory address computation.
       * Updates the `CC` flags.
-      * Throws a `HaltInstruction` exception if a `halt` instruction is encountered.
+      * Marks `Stat = HLT` when a `halt` instruction is encountered.
 4.  **`memory()`**: Reads or writes data via the `Bus`.
-      * Handles `AddressErrorException` checking (which is delegated to the `Bus`).
+      * Relies on Bus status codes to detect address faults instead of raising exceptions.
 5.  **`write_back()`**: Writes the result back to the Register File.
 6.  **`update_pc()`**: Updates the PC to the newly calculated address (`valP` or jump target).
 
 
 ### `Bus`
 
-When CPU needs to access memory or other devices, it DO NOT access the device directly, the instruction address is sent to Bus, and the Bus acts as an intermediary to access the actual device.
+When the CPU needs to access memory or other devices, it does not access the device directly; the instruction address is sent to the Bus, and the Bus acts as an intermediary to access the actual device.
 
 Register devices (for example, RAM) by:
 
 ```cpp
 void Bus::register_device(Device& device, uint64_t start_addr, uint64_t end_addr);
 ```
-Definite a struct `BusResult` in a shared .h file to include both result and fault type.
-
+Define a struct `BusResult` in a shared .h file to include both result and fault type.
 ```cpp
 struct BusResult{
     uint8_t data;
@@ -111,7 +108,7 @@ $$
 Address_{relative} = Address_{absolute} - Address_{start}
 $$
 
-If the address is illegal, the function throws an ADR exception. Please refer to [Exceptions](#exceptions) for more information.
+If the address is illegal, the function returns an ADR status. Please refer to [Exceptions](#exceptions) for more information.
 
 ### `RAM`
 
@@ -128,7 +125,7 @@ void RAM::write(uint64_t addr, uint8_t data);
 
 Not a part of computer, but a part of simulator.
 
-Read from input flow, parse program, and write the machine code into RAM.
+Read from input stream, parse program, and write the machine code into RAM.
 
 ```cpp
 void ProgramLoader::load_program(RAM& ram);
@@ -156,7 +153,7 @@ If exceptions happen, CPU writes them into Stat in following priority order:
 > HLT > ADR > INS > AOK
 
 For example, in a single cycle, we first get an ADR exception at `fetch` phase. It replaces `AOK` in Stat, because ADR has higher priority than AOK.
-Then another HLT exception is thrown at `execute` phase. It replaces ADR in Stat due to same relative priority.
+Then another HLT condition is detected at `execute` phase. It replaces ADR in Stat due to same relative priority.
 
 The cycle works like this:
 
