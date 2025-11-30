@@ -38,7 +38,7 @@ We use Meson and Ninja to build the project, and Catch2 for unit testing.
 4.  **Run Tests:**
     After building, you can run the tests using:
     ```bash
-    ninja -C build test
+    meson test -C build
     ```
 
 ### Commit Messages & Branch Names
