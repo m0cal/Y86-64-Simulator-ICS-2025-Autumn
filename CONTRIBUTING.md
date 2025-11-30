@@ -23,7 +23,7 @@ We use Meson and Ninja to build the project, and Catch2 for unit testing.
 
 2.  **Install Dependencies:**
     Our project uses Catch2 v3 for testing. We manage dependencies using Meson's wrap feature. When you run `meson setup`, it will automatically download and configure Catch2 v3.
-    **Note:** Catch2 v3 is expected. Please refer to [Catch2 v3 documentation](https://github.com/catchorg/Catch2/blob/devel/docs/Readme.md) and use the `catch2/catch.hpp` header and v3 patterns. If you are familiar with Catch2 v2, be aware that there are breaking changes in v3.
+    **Note:** Catch2 v3 is expected. Please refer to [Catch2 v3 documentation](https://github.com/catchorg/Catch2/blob/devel/docs/Readme.md) and use v3 patterns. If you are familiar with Catch2 v2, be aware that there are breaking changes in v3.
 
 3.  **Configure and Build:**
     To configure the project, run Meson from the root directory:
@@ -84,9 +84,9 @@ Follow the conventional commit and branch naming format when possible:
 
 ### Unit Test
 
-To ensure correctness of the project, new features must be accompanied by unit tests in `unit_tests/`.
+To ensure correctness of the project, new features must be accompanied by unit tests.
 
-We use [Catch2](https://github.com/catchorg/Catch2) for our unit tests, managed and run via Meson. All test files should be placed in the `unit_tests/` directory.
+We use [Catch2](https://github.com/catchorg/Catch2) for our unit tests, managed and run via Meson. All test files should be placed in the `dev_tests/` directory.
 
 #### Write Tests for Your Pull Request
 
@@ -118,13 +118,12 @@ int subtract(int a, int b);
 int multiply(int a, int b);
 ```
 
-Next, write unit tests for these functions:
+Next, write unit tests for these functions in `dev_tests/test_calculator.cc`. Note that you **do not** need to define `CATCH_CONFIG_MAIN` as we link against the Catch2 main library.
 
-`unit_tests/test_calculator.cc:`
+`dev_tests/test_calculator.cc:`
 
 ```cpp
-#define CATCH_CONFIG_MAIN
-#include <catch2/catch_test_macros.hpp> // Use specific Catch2 header for test macros
+#include <catch2/catch_test_macros.hpp>
 #include "calculator.h"
 
 TEST_CASE("Addition works", "[calculator]") {
@@ -140,12 +139,36 @@ TEST_CASE("Multiplication works", "[calculator]") {
 }
 ```
 
-Finally, build everything and run tests in project root directory:
+#### Register Your Files in `meson.build`
+
+You need to register your new source files and test files in `meson.build` so they are compiled and linked correctly.
+
+1.  Add your source file (e.g., `src/calculator.cc`) to `core_sources`:
+
+    ```meson
+    core_sources = files(
+      # ... existing files ...
+      'src/calculator.cc',
+    )
+    ```
+
+2.  Add your test file (e.g., `dev_tests/test_calculator.cc`) to `test_files`:
+
+    ```meson
+    test_files = files(
+      'dev_tests/main_test.cc',
+      'dev_tests/test_calculator.cc',
+    )
+    ```
+
+#### Build and Run Tests
+
+Finally, build everything and run tests in the project root directory:
 
 ```bash
-meson setup build
+meson setup build  # Only needed once
 ninja -C build
-meson -C build test
+meson test -C build
 ```
 
 Please make sure all tests for new features are added and all existing tests pass before initiating a pull request.
