@@ -7,6 +7,7 @@ To contribute, follow these steps:
 * Set up development environment.
 * Create a new branch.
 * Make changes on your branch.
+* Before submitting a pull request, please ensure that your feature branch is based on the latest main branch!
 * Submit a pull request with clear description.
 * Ask others to review the PR. Once approved, merge it.
 
