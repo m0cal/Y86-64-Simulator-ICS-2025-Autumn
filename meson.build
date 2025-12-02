@@ -10,6 +10,7 @@ catch2_dep = dependency('catch2-with-main', required : true)
 core_sources = files(
   'src/bus.cc',
   'src/cpu.cc',
+  'src/logger.cc'
 )
 
 main_source = files('src/main.cc') 
