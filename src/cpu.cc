@@ -289,7 +289,7 @@ void CPU::memory() {
 }
 
 void CPU::write_back() {
-    if (!stage_.decode_ok || !stage_.mem_ok) {
+    if (!stage_.decode_ok) {
         return;
     }
 
@@ -313,8 +313,8 @@ void CPU::write_back() {
             set_register(stage_.rA, stage_.valM);
             break;
         case Opcode::POPQ:
-            set_register(stage_.rA, stage_.valM);
             set_register(static_cast<uint8_t>(Register::RSP), stage_.valE);
+            set_register(stage_.rA, stage_.valM);
             break;
         case Opcode::RET:
             set_register(static_cast<uint8_t>(Register::RSP), stage_.valE);
