@@ -8,13 +8,13 @@ fs = import('fs')
 catch2_dep = dependency('catch2-with-main', required : true)
 
 core_sources = files(
-  # 'src/cpu.cc',
-  # 'src/memory.cc', # add your file here
+  'src/bus.cc',
+  'src/cpu.cc',
 )
 
 main_source = files('src/main.cc') 
 
-inc_dir = include_directories('src')
+inc_dir = include_directories('src/include')
 
 core_lib = static_library('core',
   core_sources,
@@ -29,8 +29,8 @@ executable('y86-64-sim',
 )
 
 test_files = files(
-  'dev_tests/main_test.cc'
-  # 'dev_tests/cpu_test.cc',
+  'dev_tests/cpu_test.cc'
+  # 'dev_tests/ram_test.cc',
 )
 
 foreach t : test_files
