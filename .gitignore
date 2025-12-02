@@ -1,3 +1,7 @@
 temp_answer
 *.o
 .vscode
+simulator
+y86-64-sim
+builddir/
+my_output.json

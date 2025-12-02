@@ -314,9 +314,7 @@ void CPU::write_back() {
             break;
         case Opcode::POPQ:
             set_register(static_cast<uint8_t>(Register::RSP), stage_.valE);
-            if (mem_ok) {
-                set_register(stage_.rA, stage_.valM);
-            }
+            set_register(stage_.rA, stage_.valM);
             break;
         case Opcode::RET:
             set_register(static_cast<uint8_t>(Register::RSP), stage_.valE);
