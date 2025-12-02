@@ -294,6 +294,8 @@ void CPU::write_back() {
     }
 
     const auto opcode = static_cast<Opcode>(stage_.icode);
+    const bool mem_ok = stage_.mem_ok;
+
     switch (opcode) {
         case Opcode::CMOVXX:
             if (stage_.cnd) {
@@ -301,16 +303,14 @@ void CPU::write_back() {
             }
             break;
         case Opcode::IRMOVQ:
-            set_register(stage_.rB, stage_.valE);
-            break;
         case Opcode::OPQ:
-            set_register(stage_.rB, stage_.valE);
-            break;
         case Opcode::IADDQ:
             set_register(stage_.rB, stage_.valE);
             break;
         case Opcode::MRMOVQ:
-            set_register(stage_.rA, stage_.valM);
+            if (mem_ok) {
+                set_register(stage_.rA, stage_.valM);
+            }
             break;
         case Opcode::POPQ:
             set_register(static_cast<uint8_t>(Register::RSP), stage_.valE);
