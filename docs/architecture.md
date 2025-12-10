@@ -162,3 +162,47 @@ while(cpu.Stat == AOK){
   cpu.run_cycle(); // inside this function cpu sets Stat.
 }
 ```
+
+## Additional devices
+
+The devices following is not the typical part of a Y86-64 Simulator, but make it more like a Y86-64 computer. With features such as display and IO, we hope to run the game, Pong on this computer.
+
+### Joysticks
+
+The joysticks of this machine may include more than 6, but no more than 8 keys so they could be mapped within 1 byte.
+
+For convenience, the joysticks is mapped at 8192，or 0x2000.
+
+For pong:
+
+| Low end | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 | High end |
+| ------- | - | - | - | - | - | - | - | - | -------- |
+|   null  | Player A UP | Player A DOWN | Player B UP | Player B DOWN | Start | Reset | Reserved | Reserved | null |
+
+### Display
+
+The game will be rendered on terminal, with a fixed height of 30, fixed width of 120, 2-color display. so the overall VRAM size is 30*120 / 8 = 450 bytes. To render things fluently, we take a simple double buffering approach. The frame will be drawed to termial at the end of cycle.
+
+The VRAM is designed as a part of PPU, so it should NOT be attached on System Bus.
+
+### Pixel Processing Unit (PPU)
+
+Draw sprites on buffer.
+
+For each sprite, following info is crucial to draw them on display:
+
+* storage location, or start address. (8 bytes)
+* height & width, in pixel. Also used to calculate the size to read. (2 bytes)
+* location on display, in pixel. (2 bytes)
+
+Support render 16 sprites at the same time, so the overall size of PPU is 16*(8+2+2) = 192 bytes, on System Bus.
+
+The sprites are numbered from 0 to 15.
+
+PPU is mapped from 0x3000 to 0x30C0.
+
+### Timer
+
+To run the game at a fixed speed, we set a 60Hz Timer with auto-increment.
+Size: 1 byte.
+Address: 0x4000
