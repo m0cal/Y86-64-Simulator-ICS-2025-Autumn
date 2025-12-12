@@ -10,7 +10,9 @@ catch2_dep = dependency('catch2-with-main', required : true)
 core_sources = files(
   'src/bus.cc',
   'src/cpu.cc',
-  'src/logger.cc'
+  'src/logger.cc',
+  'src/ppu.cc',
+  'src/joystick.cc'
 )
 
 main_source = files('src/main.cc') 
@@ -30,7 +32,8 @@ executable('y86-64-sim',
 )
 
 test_files = files(
-  'dev_tests/cpu_test.cc'
+  'dev_tests/cpu_test.cc',
+  'dev_tests/ppu_timer_test.cc'
   # 'dev_tests/ram_test.cc',
 )
 

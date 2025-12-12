@@ -7,7 +7,10 @@
 #include "bus.h"
 #include "cpu.h"
 #include "logger.h"
-#include "ram.h" 
+#include "ram.h"
+#include "ppu.h"
+#include "joystick.h"
+#include "timer.h"
 
 using namespace Y86_64;
 
@@ -53,13 +56,25 @@ void load_program_from_stdin(RAM& ram) {
 
 int main() {
     Bus bus;
-    RAM ram(4096); 
+    RAM ram(4096);
     
+    // Only RAM is needed to load program; attach others after stdin is consumed
+    // to avoid interfering with terminal modes (joystick sets raw mode).
     try {
         bus.register_device(ram, 0, 4096);
     } catch (...) {}
 
     load_program_from_stdin(ram);
+
+    PPU ppu(bus, /*render_enabled=*/true);
+    Joystick joystick;
+    Timer timer;
+
+    try {
+        bus.register_device(ppu, 0x3000, 0x30C0);
+        bus.register_device(joystick, 0x2000, 0x2001);
+        bus.register_device(timer, 0x4000, 0x4001);
+    } catch (...) {}
 
     CPU cpu(bus);
     Logger logger;
@@ -71,6 +86,9 @@ int main() {
     while (is_running && cycle < max_cycles) {
         if (cpu.stat() == Y86Stat::AOK) {
             cpu.run_cycle();
+            ppu.update();
+            joystick.update();
+            timer.update();
             logger.trace(cpu, ram);
         } else {
             is_running = false;
