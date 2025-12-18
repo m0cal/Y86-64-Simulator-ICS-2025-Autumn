@@ -1,42 +1,36 @@
 ---
 # try also 'default' to start simple
-theme: seriph
+theme: purplin
 # random image from a curated Unsplash collection by Anthony
 # like them? see https://unsplash.com/collections/94734566/slidev
-background: https://cover.sli.dev
+# background: https://cover.sli.dev
 # some information about your slides (markdown enabled)
-title: Welcome to Slidev
-info: |
+title: Y86-64 Simulator+
+info: 
   ## Slidev Starter Template
   Presentation slides for developers.
 
   Learn more at [Sli.dev](https://sli.dev)
 # apply UnoCSS classes to the current slide
-class: text-center
+# class: text-center
 # https://sli.dev/features/drawing
 drawings:
   persist: false
 # slide transition: https://sli.dev/guide/animations.html#slide-transitions
-transition: slide-left
+transition: fade-out
 # enable MDC Syntax: https://sli.dev/features/mdc
 mdc: true
 # duration of the presentation
-duration: 35min
+duration: 5min
 ---
 
-# Welcome to Slidev
+# Y86-64 Simulator+
 
-Presentation slides for developers
-
-<div @click="$slidev.nav.next" class="mt-12 py-1" hover:bg="white op-10">
-  Press Space for next page <carbon:arrow-right />
-</div>
+Adiuvante Deo labor proficit.
 
 <div class="abs-br m-6 text-xl">
-  <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="slidev-icon-btn">
-    <carbon:edit />
-  </button>
-  <a href="https://github.com/slidevjs/slidev" target="_blank" class="slidev-icon-btn">
+  m0cal/Y86-64-Simulator-ICS-2025-Autumn
+  <a href="https://github.com/m0cal/Y86-64-Simulator-ICS-2025-Autumn" target="_blank" class="slidev-icon-btn">
     <carbon:logo-github />
   </a>
 </div>
@@ -46,30 +40,47 @@ The last comment block of each slide will be treated as slide notes. It will be 
 -->
 
 ---
-transition: fade-out
+transition: slide-up
 ---
 
-# What is Slidev?
+# Members
 
-Slidev is a slides maker and presenter designed for developers, consist of the following features
+And their contributions.
 
-- 📝 **Text-based** - focus on the content with Markdown, and then style them later
-- 🎨 **Themable** - themes can be shared and re-used as npm packages
-- 🧑‍💻 **Developer Friendly** - code highlighting, live coding with autocompletion
-- 🤹 **Interactive** - embed Vue components to enhance your expressions
-- 🎥 **Recording** - built-in recording and camera view
-- 📤 **Portable** - export to PDF, PPTX, PNGs, or even a hostable SPA
-- 🛠 **Hackable** - virtually anything that's possible on a webpage is possible in Slidev
 <br>
-<br>
+<div class="grid grid-cols-3 mt-5 text-center">
+  <div class="space-y-4">
+    <img class="w-36 h-36 rounded-full shadow-lg mx-auto object-cover" src="https://avatars.githubusercontent.com/u/118277482?v=4" alt="Portrait of m0cal"> 
+    <div class="text-xl font-sans tracking-wide">李睿洋</div>
+    <div class="text-sm tracking-wide text-gray">Simulator Architecture & CPU</div>
+    <div>
+      <carbon:logo-github /> m0cal
+    </div>
+  </div>
+  <div class="space-y-4">
+    <img class="w-36 h-36 rounded-full shadow-lg mx-auto object-cover" src="https://avatars.githubusercontent.com/u/188039000?v=4" alt="Portrait of imnotvix">
+    <div class="text-xl font-sans tracking-wide">夏温祺</div>
+    <div class="text-sm tracking-wide text-gray">Status Snapshot & Structured Output</div>
+    <div>
+      <carbon:logo-github /> imnotvicx
+    </div>
+  </div>
+  <div class="space-y-4">
+    <img class="w-36 h-36 rounded-full shadow-lg mx-auto object-cover" src="https://avatars.githubusercontent.com/u/121110699?v=4" alt="Portrait of hanmuru">
+    <div class="text-xl font-sans tracking-wide">韩穆如</div>
+    <div class="text-sm tracking-wide text-gray">Program Parsing & Bus</div>
+    <div>
+      <carbon:logo-github /> hanmuru
+    </div>
+  </div>
+</div>
 
-Read more about [Why Slidev?](https://sli.dev/guide/why)
 
 <!--
 You can have `style` tag in markdown to override the style for the current page.
 Learn more: https://sli.dev/features/slide-scope-style
 -->
-
+<!--
 <style>
 h1 {
   background-color: #2B90B6;
@@ -81,557 +92,432 @@ h1 {
   -moz-text-fill-color: transparent;
 }
 </style>
-
+-->
 <!--
 Here is another comment.
 -->
 
 ---
-transition: slide-up
-level: 2
+layout: two-cols-header
+transition: fade
 ---
 
-# Navigation
-
-Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/ui#navigation-bar)
-
-## Keyboard Shortcuts
-
-|                                                     |                             |
-| --------------------------------------------------- | --------------------------- |
-| <kbd>right</kbd> / <kbd>space</kbd>                 | next animation or slide     |
-| <kbd>left</kbd>  / <kbd>shift</kbd><kbd>space</kbd> | previous animation or slide |
-| <kbd>up</kbd>                                       | previous slide              |
-| <kbd>down</kbd>                                     | next slide                  |
-
-<!-- https://sli.dev/guide/animations.html#click-animation -->
-<img
-  v-click
-  class="absolute -bottom-9 -left-7 w-80 opacity-50"
-  src="https://sli.dev/assets/arrow-bottom-left.svg"
-  alt=""
-/>
-<p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
-
----
-layout: two-cols
-layoutClass: gap-16
----
-
-# Table of contents
-
-You can use the `Toc` component to generate a table of contents for your slides:
-
-```html
-<Toc minDepth="1" maxDepth="1" />
+# SEQ CPU
+An objective implementation.
+<div class="text-center">
+```mermaid
+flowchart LR
+A[Fetch]-->B[Decode]
+B-->C[Execute]
+C-->D[Memory]
+D-->F[Write-back]
+F--Update PC-->A
 ```
-
-The title will be inferred from your slide content, or you can override it with `title` and `level` in your frontmatter.
+</div>
+::left::
+<div>
+<div>
+In standard design, a CPU clock cycle is conceptually divided into five stages: Fetch, Decode, Execute, Memory, and Write-back.
+</div>
+<p/>
+<div v-click>
+Status Codes, Registers and Condition Codes must be saved in `CPU` class for inter-cycle consistency.
+</div>
+<p/>
+<div v-click="3">
+But what should be saved in a single cycle as they are used within a single cycle, across stages?
+</div>
+</div>
 
 ::right::
+````md magic-move{at:2, lines: true}
 
-<Toc text-sm minDepth="1" maxDepth="2" />
-
----
-layout: image-right
-image: https://cover.sli.dev
----
-
-# Code
-
-Use code snippets and get the highlighting directly, and even types hover!
-
-```ts [filename-example.ts] {all|4|6|6-7|9|all} twoslash
-// TwoSlash enables TypeScript hover information
-// and errors in markdown code blocks
-// More at https://shiki.style/packages/twoslash
-import { computed, ref } from 'vue'
-
-const count = ref(0)
-const doubled = computed(() => count.value * 2)
-
-doubled.value = 2
+```cpp
+void CPU::run_cycle() {
+    fetch();
+    decode();
+    execute();
+    memory();
+    write_back();
+    update_pc();
+}
 ```
 
-<arrow v-click="[4, 5]" x1="350" y1="310" x2="195" y2="342" color="#953" width="2" arrowSize="1" />
-
-<!-- This allow you to embed external code blocks -->
-<<< @/snippets/external.ts#snippet
-
-<!-- Footer -->
-
-[Learn more](https://sli.dev/features/line-highlighting)
-
-<!-- Inline style -->
-<style>
-.footnotes-sep {
-  @apply mt-5 opacity-10;
-}
-.footnotes {
-  @apply text-sm opacity-75;
-}
-.footnote-backref {
-  display: none;
-}
-</style>
-
-<!--
-Notes can also sync with clicks
-
-[click] This will be highlighted after the first click
-
-[click] Highlighted with `count = ref(0)`
-
-[click:3] Last click (skip two clicks)
--->
-
----
-level: 2
----
-
-# Shiki Magic Move
-
-Powered by [shiki-magic-move](https://shiki-magic-move.netlify.app/), Slidev supports animations across multiple code snippets.
-
-Add multiple code blocks and wrap them with <code>````md magic-move</code> (four backticks) to enable the magic move. For example:
-
-````md magic-move {lines: true}
-```ts {*|2|*}
-// step 1
-const author = reactive({
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
-})
-```
-
-```ts {*|1-2|3-4|3-4,8}
-// step 2
-export default {
-  data() {
-    return {
-      author: {
-        name: 'John Doe',
-        books: [
-          'Vue 2 - Advanced Guide',
-          'Vue 3 - Basic Guide',
-          'Vue 4 - The Mystery'
-        ]
-      }
+```cpp
+void CPU::run_cycle() {
+    if (stat_ != Y86Stat::AOK) {
+        return;
     }
-  }
+    fetch();
+    decode();
+    execute();
+    memory();
+    write_back();
+    update_pc();
 }
 ```
 
-```ts
-// step 3
-export default {
-  data: () => ({
-    author: {
-      name: 'John Doe',
-      books: [
-        'Vue 2 - Advanced Guide',
-        'Vue 3 - Basic Guide',
-        'Vue 4 - The Mystery'
-      ]
+```cpp
+void CPU::run_cycle() {
+    if (stat_ != Y86Stat::AOK) {
+        return;
     }
-  })
+    fetch();
+    decode();
+    execute();
+    memory();
+    write_back();
+    update_pc();
 }
 ```
 
-Non-code blocks are ignored.
-
-```vue
-<!-- step 4 -->
-<script setup>
-const author = {
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
+```cpp{*|5|*}
+void CPU::run_cycle() {
+    if (stat_ != Y86Stat::AOK) {
+        return;
+    }
+    stage_ = StageState{};
+    stage_.inst_pc = pc_;
+    fetch();
+    decode();
+    execute();
+    memory();
+    write_back();
+    update_pc();
 }
-</script>
 ```
 ````
 
+
+---
+transition: fade
+layout: two-cols
 ---
 
-# Components
+# SEQ CPU
 
-<div grid="~ cols-2 gap-4">
+Scope in a cycle.
+
+The intermediate results in a single cycle are saved in struct `StageState`.
+
+It captures all values and control results produced across all the stages, also indicates the furthest stage reached by the instruction.
+
+For example:
+<div>
+```
+mrmovq 0x8(%rbx), %rax  // 50 03 08 00 00 00 00 00 00 00
+```
+</div>
+<div v-click="7">
+That means, it encodes the progress of an instruction, at stage granularity, providing a unified representation for both SEQ and pipelined implementations.
+
+In our SEQ design, all of the states are used in a same cycle.
+</div>
+::right::
 <div>
 
-You can use Vue components directly inside your slides.
+````md magic-move{at: 1, lines: true}
 
-We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
-
-```html
-<Counter :count="10" />
+```cpp
+struct StageState {
+	uint8_t icode = 0;
+	uint8_t ifun = 0;
+	uint8_t rA = static_cast<uint8_t>(Register::RNONE);
+	uint8_t rB = static_cast<uint8_t>(Register::RNONE);
+	uint64_t valC = 0;
+	uint64_t valA = 0;
+	uint64_t valB = 0;
+	uint64_t valE = 0;
+	uint64_t valM = 0;
+	uint64_t valP = 0;
+	uint64_t inst_pc = 0;
+	bool cnd = true;
+	bool fetch_ok = false;
+	bool decode_ok = false;
+	bool execute_ok = false;
+	bool mem_ok = false;
+};
 ```
 
-<!-- ./components/Counter.vue -->
-<Counter :count="10" m="t-4" />
-
-Check out [the guides](https://sli.dev/builtin/components.html) for more.
-
+```cpp
+struct StageState {
+	uint8_t icode = 5;
+	uint8_t ifun = 0;
+	uint8_t rA = static_cast<uint8_t>(Register::rax);
+	uint8_t rB = static_cast<uint8_t>(Register::rbx);
+	uint64_t valC = 8;
+	uint64_t valA = 0;
+	uint64_t valB = 0;
+	uint64_t valE = 0;
+	uint64_t valM = 0;
+	uint64_t valP = 10;
+	uint64_t inst_pc = 1;
+	bool cnd = true;
+	bool fetch_ok = true;
+	bool decode_ok = false;
+	bool execute_ok = false;
+	bool mem_ok = false;
+};
+```
+```cpp
+struct StageState {
+	uint8_t icode = 5;
+	uint8_t ifun = 0;
+	uint8_t rA = static_cast<uint8_t>(Register::rax);
+	uint8_t rB = static_cast<uint8_t>(Register::rbx);
+	uint64_t valC = 8;
+	uint64_t valA = 0;
+	uint64_t valB = 1024;
+	uint64_t valE = 0;
+	uint64_t valM = 0;
+	uint64_t valP = 10;
+	uint64_t inst_pc = 1;
+	bool cnd = true;
+	bool fetch_ok = true;
+	bool decode_ok = true;
+	bool execute_ok = false;
+	bool mem_ok = false;
+};
+```
+```cpp
+struct StageState {
+	uint8_t icode = 5;
+	uint8_t ifun = 0;
+	uint8_t rA = static_cast<uint8_t>(Register::rax);
+	uint8_t rB = static_cast<uint8_t>(Register::rbx);
+	uint64_t valC = 8;
+	uint64_t valA = 0;
+	uint64_t valB = 1024;
+	uint64_t valE = 1032;
+	uint64_t valM = 0;
+	uint64_t valP = 10;
+	uint64_t inst_pc = 1;
+	bool cnd = true;
+	bool fetch_ok = true;
+	bool decode_ok = true;
+	bool execute_ok = true;
+	bool mem_ok = false;
+};
+```
+```cpp
+struct StageState {
+	uint8_t icode = 5;
+	uint8_t ifun = 0;
+	uint8_t rA = static_cast<uint8_t>(Register::rax);
+	uint8_t rB = static_cast<uint8_t>(Register::rbx);
+	uint64_t valC = 8;
+	uint64_t valA = 0;
+	uint64_t valB = 1024;
+	uint64_t valE = 1032;
+	uint64_t valM = 0xABC;
+	uint64_t valP = 10;
+	uint64_t inst_pc = 1;
+	bool cnd = true;
+	bool fetch_ok = true;
+	bool decode_ok = true;
+	bool execute_ok = true;
+	bool mem_ok = true;
+};
+```
+````
 </div>
+
 <div>
+````md magic-move{at: 1, lines: true}
 
-```html
-<Tweet id="1390115482657726468" />
+```cpp{none|1|2|3|4|5|6}
+    fetch();
+    decode();
+    execute();
+    memory();
+    write_back();
+    update_pc();
 ```
-
-<Tweet id="1390115482657726468" scale="0.65" />
+````
 
 </div>
-</div>
 
-<!--
-Presenter note with **bold**, *italic*, and ~~striked~~ text.
-
-Also, HTML elements are valid:
-<div class="flex w-full">
-  <span style="flex-grow: 1;">Left content</span>
-  <span>Right content</span>
-</div>
--->
+<style>
+  .two-cols{
+    column-gap: 50px;
+  }
+</style>
 
 ---
-class: px-20
+transition: slide-left
+layout: fact
 ---
 
-# Themes
+# Bus Transaction Flow
 
-Slidev comes with powerful theming support. Themes can provide styles, layouts, components, or even configurations for tools. Switching between themes by just **one edit** in your frontmatter:
-
-<div grid="~ cols-2 gap-2" m="t-2">
-
-```yaml
----
-theme: default
----
+<div class="grid text-center">
+```mermaid {scale: 1}
+sequenceDiagram
+    participant Initiator
+    participant Bus
+    participant Devices@{ "type" : "collections" }
+    Initiator->>Bus: Issue memory request
+    Note over Bus: Decode address
+    Bus->>Devices: Access target device
+    Devices->>Bus: Respond with data / ACK
+    Bus->>Initiator: Return data / ACK
 ```
+</div>
+---
+transition: slide-up
+layout: two-cols
+---
 
-```yaml
----
-theme: seriph
----
+# Bus Transaction Flow
+
+Vroom, Vroom, Vroom
+
+
+<br>
+<div class="grid text-center">
+```mermaid {scale: 0.65}
+sankey
+  Memory Space, RAM, 4096
+  Memory Space, Device Foo, 2048
+  Memory Space, Device Bar, 1024
 ```
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-default/01.png?raw=true" alt="">
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-seriph/01.png?raw=true" alt="">
-
+<br>
+A mapping example.
 </div>
 
-Read more about [How to use a theme](https://sli.dev/guide/theme-addon#use-theme) and
-check out the [Awesome Themes Gallery](https://sli.dev/resources/theme-gallery).
+::right::
 
----
-
-# Clicks Animations
-
-You can add `v-click` to elements to add a click animation.
-
-<div v-click>
-
-This shows up when you click the slide:
-
-```html
-<div v-click>This shows up when you click the slide.</div>
-```
-
-</div>
+| Address | Device |
+| ------ | ------- |
+| 0x0 ~ 0x1000 |   RAM  |
+|0x2000 ~ 0x2001|   Joystick | 
+|  0x3000 ~ 0x30C0 |   PPU  |
+| 0x4000 ~ 0x4001|   Timer |
 
 <br>
 
-<v-click>
-
-The <span v-mark.red="3"><code>v-mark</code> directive</span>
-also allows you to add
-<span v-mark.circle.orange="4">inline marks</span>
-, powered by [Rough Notation](https://roughnotation.com/):
-
-```html
-<span v-mark.underline.orange>inline markers</span>
+```cpp
+void register_device(Device& d, uint64_t sa, uint64_t ea);
 ```
-
-</v-click>
-
-<div mt-20 v-click>
-
-[Learn more](https://sli.dev/guide/animations#click-animation)
-
-</div>
-
----
-
-# Motions
-
-Motion animations are powered by [@vueuse/motion](https://motion.vueuse.org/), triggered by `v-motion` directive.
-
-```html
-<div
-  v-motion
-  :initial="{ x: -80 }"
-  :enter="{ x: 0 }"
-  :click-3="{ x: 80 }"
-  :leave="{ x: 1000 }"
->
-  Slidev
-</div>
+```cpp
+bus.register_device(ram, 0, 0x1000);
+bus.register_device(ppu, 0x3000, 0x30C0);
+bus.register_device(joystick, 0x2000, 0x2001);
+bus.register_device(timer, 0x4000, 0x4001);
 ```
-
-<div class="w-60 relative">
-  <div class="relative w-40 h-40">
-    <img
-      v-motion
-      :initial="{ x: 800, y: -100, scale: 1.5, rotate: -50 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-square.png"
-      alt=""
-    />
-    <img
-      v-motion
-      :initial="{ y: 500, x: -100, scale: 2 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-circle.png"
-      alt=""
-    />
-    <img
-      v-motion
-      :initial="{ x: 600, y: 400, scale: 2, rotate: 100 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-triangle.png"
-      alt=""
-    />
-  </div>
-
-  <div
-    class="text-5xl absolute top-14 left-40 text-[#2B90B6] -z-1"
-    v-motion
-    :initial="{ x: -80, opacity: 0}"
-    :enter="{ x: 0, opacity: 1, transition: { delay: 2000, duration: 1000 } }">
-    Slidev
-  </div>
-</div>
-
-<!-- vue script setup scripts can be directly used in markdown, and will only affects current page -->
-<script setup lang="ts">
-const final = {
-  x: 0,
-  y: 0,
-  rotate: 0,
-  scale: 1,
-  transition: {
-    type: 'spring',
-    damping: 10,
-    stiffness: 20,
-    mass: 2
-  }
-}
-</script>
-
-<div
-  v-motion
-  :initial="{ x:35, y: 30, opacity: 0}"
-  :enter="{ y: 0, opacity: 1, transition: { delay: 3500 } }">
-
-[Learn more](https://sli.dev/guide/animations.html#motion)
-
-</div>
-
+```cpp
+BusResult read(uint64_t addr) const;
+BusResult write(uint64_t addr, uint8_t data);
+```
 ---
+layout: two-cols
+---
+# PPU
 
-# $\LaTeX$
+Spiritus ubi vult spirat. (Io. 3:8)
 
-$\LaTeX$ is supported out-of-box. Powered by [$\KaTeX$](https://katex.org/).
+Attributes of display:
 
-<div h-3 />
+* 120 x 30
+* two-color
+* double-buffered
 
-Inline $\sqrt{3x-1}+(1+x)^2$
+So the overall size of the buffer is：
 
-Block
-$$ {1|3|all}
-\begin{aligned}
-\nabla \cdot \vec{E} &= \frac{\rho}{\varepsilon_0} \\
-\nabla \cdot \vec{B} &= 0 \\
-\nabla \times \vec{E} &= -\frac{\partial\vec{B}}{\partial t} \\
-\nabla \times \vec{B} &= \mu_0\vec{J} + \mu_0\varepsilon_0\frac{\partial\vec{E}}{\partial t}
-\end{aligned}
+$$
+\frac{(120 \times 30)\times 2}{8} = 900 (bytes)
 $$
 
-[Learn more](https://sli.dev/features/latex)
+For CPU, this buffer is invisible.
+
+Instead of rendering graphics pixel by pixel, it only determines which **sprite** to draw, and where it should be placed.
+
+::right::
+| Address | Attributes for |
+| ------- | ---- |
+| 0x3000 ~ 0x300C  | Sprite 0 |
+| 0x300C ~ 0x3018 | Sprite 1|
+| ... | ... |
+| 0x30B4 ~ 0x30C0 | Sprite 15|
+
+<br>
+```cpp
+struct Sprite{
+  uint64_t addr; // pointing to where the bitmap stored
+  uint8_t height; // in px
+  uint8_t width;
+  uint8_t x;
+  uint8_t y;
+};
+
+```
+
+
 
 ---
-
-# Diagrams
-
-You can create diagrams / graphs from textual descriptions, directly in your Markdown.
-
-<div class="grid grid-cols-4 gap-5 pt-4 -mb-6">
-
-```mermaid {scale: 0.5, alt: 'A simple sequence diagram'}
-sequenceDiagram
-    Alice->John: Hello John, how are you?
-    Note over Alice,John: A typical interaction
-```
-
-```mermaid {theme: 'neutral', scale: 0.8}
-graph TD
-B[Text] --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
-```
+layout: default
+---
+# Git Graph
 
 ```mermaid
-mindmap
-  root((mindmap))
-    Origins
-      Long history
-      ::icon(fa fa-book)
-      Popularisation
-        British popular psychology author Tony Buzan
-    Research
-      On effectiveness<br/>and features
-      On Automatic creation
-        Uses
-            Creative techniques
-            Strategic planning
-            Argument mapping
-    Tools
-      Pen and paper
-      Mermaid
+gitGraph
+    commit id: "912fd39" tag: "Initial commit"
+    commit id: "a04c20a" msg: "Update README.md"
+    branch "docs/contributing"
+    checkout "docs/contributing"
+    commit id: "a6727cf" msg: "docs: add CONTRIBUTING.md"
+    commit id: "4d3cda9" msg: "Update CONTRIBUTING.md"
+    commit id: "af7ca8e" msg: "Update CONTRIBUTING.md"
+    checkout main
+    merge "docs/contributing" id: "f9429c3"
+    branch "docs/architecture"
+    checkout "docs/architecture"
+    commit id: "ee7ddd7" msg: "docs: add architecture.md"
+    commit id: "8ef6389" msg: "docs: update architecture.md"
+    commit id: "edbde02" msg: "fix: wrong exception time"
+    commit id: "a52666a" msg: "fix: inconsistency and grammar"
+    checkout main
+    merge "docs/architecture" id: "ba7e9df"
+    branch "arch/simulator-design"
+    checkout "arch/simulator-design"
+    commit id: "b7f44bf" msg: "chore: detele unused files"
+    commit id: "bb175c1" msg: "feat: add test framework"
+    commit id: "f15fb90" msg: "fix: doc inconsistency"
+    commit id: "d5ae8c4" msg: "feat: initialize all headers"
+    checkout main
+    merge "arch/simulator-design" id: "cc76acc"
+    branch "PR-submission-reminder"
+    checkout "PR-submission-reminder"
+    commit id: "ec2f8b0" msg: "docs: add a reminder"
+    checkout main
+    merge "PR-submission-reminder" id: "f529731"
+    branch "feat/cpu&bus"
+    checkout "feat/cpu&bus"
+    commit id: "0073515" msg: "feat: implement CPU and Bus"
+    checkout main
+    merge "feat/cpu&bus" id: "9796ce4"
+    branch "feature/final-json-sync"
+    checkout "feature/final-json-sync"
+    commit id: "076f176" msg: "2"
+    checkout main
+    branch "feature/logger-complete"
+    checkout "feature/logger-complete"
+    commit id: "4966c5a" msg: "Feat: Add Logger"
+    commit id: "33ce2e9" msg: "Fix: Resolve popq"
+    checkout main
+    merge "feature/final-json-sync" id: "595e21e"
+    checkout "feature/logger-complete"
+    merge main id: "5ce62c1"
+    checkout main
+    merge "feature/logger-complete" id: "f2ba149"
+    branch "feat/pixel-processing-unit"
+    checkout "feat/pixel-processing-unit"
+    commit id: "a8daa2f" msg: "Feat: Implement PPU"
+    checkout main
+    merge "feat/pixel-processing-unit" id: "ea55a2a"
 ```
-
-```plantuml {scale: 0.7}
-@startuml
-
-package "Some Group" {
-  HTTP - [First Component]
-  [Another Component]
-}
-
-node "Other Groups" {
-  FTP - [Second Component]
-  [First Component] --> FTP
-}
-
-cloud {
-  [Example 1]
-}
-
-database "MySql" {
-  folder "This is my folder" {
-    [Folder 3]
-  }
-  frame "Foo" {
-    [Frame 4]
-  }
-}
-
-[Another Component] --> [Example 1]
-[Example 1] --> [Folder 3]
-[Folder 3] --> [Frame 4]
-
-@enduml
-```
-
-</div>
-
-Learn more: [Mermaid Diagrams](https://sli.dev/features/mermaid) and [PlantUML Diagrams](https://sli.dev/features/plantuml)
-
 ---
-foo: bar
-dragPos:
-  square: 691,32,167,_,-16
+layout: end
 ---
 
-# Draggable Elements
-
-Double-click on the draggable elements to edit their positions.
-
-<br>
-
-###### Directive Usage
-
-```md
-<img v-drag="'square'" src="https://sli.dev/logo.png">
-```
-
-<br>
-
-###### Component Usage
-
-```md
-<v-drag text-3xl>
-  <div class="i-carbon:arrow-up" />
-  Use the `v-drag` component to have a draggable container!
-</v-drag>
-```
-
-<v-drag pos="663,206,261,_,-15">
-  <div text-center text-3xl border border-main rounded>
-    Double-click me!
-  </div>
-</v-drag>
-
-<img v-drag="'square'" src="https://sli.dev/logo.png">
-
-###### Draggable Arrow
-
-```md
-<v-drag-arrow two-way />
-```
-
-<v-drag-arrow pos="67,452,253,46" two-way op70 />
-
----
-src: ./pages/imported-slides.md
-hide: false
----
-
----
-
-# Monaco Editor
-
-Slidev provides built-in Monaco Editor support.
-
-Add `{monaco}` to the code block to turn it into an editor:
-
-```ts {monaco}
-import { ref } from 'vue'
-import { emptyArray } from './external'
-
-const arr = ref(emptyArray(10))
-```
-
-Use `{monaco-run}` to create an editor that can execute the code directly in the slide:
-
-```ts {monaco-run}
-import { version } from 'vue'
-import { emptyArray, sayHello } from './external'
-
-sayHello()
-console.log(`vue ${version}`)
-console.log(emptyArray<number>(10).reduce(fib => [...fib, fib.at(-1)! + fib.at(-2)!], [1, 1]))
-```
-
----
-layout: center
-class: text-center
----
-
-# Learn More
-
-[Documentation](https://sli.dev) · [GitHub](https://github.com/slidevjs/slidev) · [Showcases](https://sli.dev/resources/showcases)
-
-<PoweredBySlidev mt-10 />
+# Q & A
